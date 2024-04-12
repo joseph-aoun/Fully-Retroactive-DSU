@@ -17,6 +17,7 @@ class Persistent_DSU {
     void union_set(int u, int v, double time) {
         adj[u][v].w.insert(time);
         adj[v][u].w.insert(time);
+        events[time] = {Tyoe::UNION, {u, v}};
     }
     public:
     void INSERT(Type t, int u, int v = -1, double time = 0.0) {
