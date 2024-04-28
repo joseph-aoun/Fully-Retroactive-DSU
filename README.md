@@ -25,12 +25,27 @@ n: number of vertices.
 
 m: number of edges (total number of operations).
 
+## Challenges And Limitations:
+How can we improve the query operation to be faster than O(m)?
+
+How can we use integer times instead of floating numbers to denote operation times?
+
+## Offered Solution:
+We will use a data structure that is called: link-cut-tree (LCT). LCT is a data structure commonly used for representing a set of forests and offers a number of important operations with very efficient complexity.
+- **Add Edge(u, v, w)**: Add an undirected edge between u and v with weight w if they **do not** create a cycle.
+- **Query Path(u, v)**: Query a specific commutative and associative function between u and v (like maximum/minimum weight on the path between u and v).
+- **Remove Edge(u, v)**: Remove the edge u, v
+- **Query Subtree(u)**: Query a specific commutative and associative function in the subtree of u (including u).
+LCT supports all of those in O(log(n)) time, where n is the number of nodes.
+
+## Approach:
+
+
 ## Potential Usage
-- **Helpful in Analysis of Network Connectivity**
-- **Undo and Redo operations in interactive systems**
+- **Helpful in Dynamic Analysis of Network Connectivity**
+- **Undo and Redo operations in interactive systems like games**
 
 ## Compilation
-
 To compile the project, use the following command:
 
 ```bash
