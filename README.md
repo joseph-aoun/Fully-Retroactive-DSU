@@ -20,6 +20,7 @@ The log(n) overhead can be removed by replacing the map with a hashtable but now
 - **Query**:
   - *Slow*: O(2^n)
   - *Fast*: O(nlog(m))
+
 n: number of vertices.
 m: number of edges (total number of operations).
 
