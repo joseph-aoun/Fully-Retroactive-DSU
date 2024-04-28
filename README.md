@@ -22,6 +22,7 @@ The log(n) overhead can be removed by replacing the map with a hashtable but now
   - *Fast*: O(nlog(m))
 
 n: number of vertices.
+
 m: number of edges (total number of operations).
 
 ## Potential Usage
