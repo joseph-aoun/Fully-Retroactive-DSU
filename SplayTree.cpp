@@ -3,6 +3,7 @@
 //
 #include<iostream>
 #include<vector>
+#include<cassert>
 using namespace std;
 
 struct Node {
@@ -17,9 +18,9 @@ typedef Node * nodePtr;
 class SplayTree {
 private:
     nodePtr root;
-    nodePtr Search_(nodePtr r, int val) {
+    nodePtr Search_(nodePtr r, int val, bool c = false) {
         if(!r) return r;
-        if(r->data == val) return r;
+        if(r->data == val && !c) return r;
         if(r->data < val) return Search_(r->right, val);
         else return Search_(r->left, val);
     }
@@ -72,14 +73,76 @@ private:
         }
     } // splay takes a node and moves it to the top to become the root
 
+    pair<nodePtr, nodePtr> split(nodePtr node) {
+        splay(node);
+        nodePtr s, t;
+        if(node->right) {
+            // if it is not the maximum element
+            t = node->right; t->parent = nullptr;
+        } else t = nullptr;
+        s = node; s->right = node = nullptr;
+        return {s, t};
+    }
 
+    nodePtr join(nodePtr s, nodePtr t) {
+        // joins s and t, where all the keys in s are smaller than those in t
+        if(!s) return t;
+        if(!t) return s;
 
+        nodePtr m_ = max(s);
+        splay(m_);
+        m_->right = t;
+        t->parent = m_;
 
+        return m_;
+    }
+
+    void deleteNode(int val) {
+        auto node = Search_(this->root, val);
+        assert(node != nullptr);
+
+        auto [s, t] = split(node);
+        if(s->left) s->left->parent = nullptr;
+
+        root = join(s->left, t); s = nullptr; delete(s);
+    }
 
 public:
+    SplayTree() { this->root = nullptr; }
 
+    nodePtr max(nodePtr node) {
+        while(node->right) node = node->right; return node;
+    }
+    nodePtr min(nodePtr node) {
+        while(node->left) node = node->left; return node;
+    }
+    nodePtr search(int key) {
+        nodePtr node = Search_(root, key); if(node) splay(node);
+        return node;
+    }
+    void insert(int key) {
+        if(!root) { root = new Node(); root->data = key; }
+        splay(Search_(root, key, true));
+    }
+    nodePtr predecessor(int key) {
+        // assumes key is in the tree
+        nodePtr node = Search_(root, key);
+        if(node->left) return max(node->left);
+        while(node->parent && node == node->parent->left) node = node->parent;
+        return node->parent;
+    }
+    nodePtr successor(int key) {
+        // also assumes that key is in the tree
+        nodePtr node = Search_(root, key);
+        if(node->right) return min(node->right);
+        while(node->parent && node == node->parent->right) node = node->parent;
+        return node->parent;
+    }
 };
 
 int main() {
+    SplayTree splayTree;
+    splayTree.insert(1); splayTree.insert(2); splayTree.insert(3);
+    cout << splayTree.predecessor(2) << "\n";
     return 0;
 }
