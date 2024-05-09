@@ -16,7 +16,7 @@
  * 
  * Simplifying assumptions:
  *  > union(u,v) is set only once for each pair (u,v) in the union-find.
- *  > You can only do one operation per time. (at t=1 you can only do 1 retroactive operation)
+ *  > You can only do one operation per time. (at t=1 you can only do 1 retroactive operation).
  *  > The timeline of operations will be ordered by BigFloat class.
  *  
  */
@@ -40,8 +40,6 @@ class RetroDSU{
     private:
     map<BigFloat,retroOP_t> operations;
     // link_cut Tree; 
-    
-
     public:
     RetroDSU();
     void Insert(BigFloat time, retroOP_t dsuOP_t);
@@ -53,3 +51,11 @@ class RetroDSU{
     
 
 };
+/**
+ * @brief Requirements
+ * 
+ * 1. Add retroactive operations.
+ * 2. Get the timeline of all the operations made.
+ * 3. 
+ * 
+ */
