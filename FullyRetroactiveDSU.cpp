@@ -312,7 +312,7 @@ void test_n_logn(int sz) {
 
 #include <chrono>
 vector<long double> time_taken;
-vector<int> num_ops = {120000};
+vector<int> num_ops = { 1, 10, 100, 1000, 5000, 10000, 20000, 30000, 40000,50000, 60000, 70000, 80000, 100000, 120000};
 void stress_test() {
     for (int i = 0; i < num_ops.size(); i++) {
         auto start = chrono::high_resolution_clock::now();
@@ -340,6 +340,6 @@ int main()
     freopen("output.txt", "w", stdout);
     srand(10);
     // test();
-    // stress_test();
+    stress_test();
     return 0;
 }
