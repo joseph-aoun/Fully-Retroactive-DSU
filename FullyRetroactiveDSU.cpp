@@ -24,7 +24,7 @@ protected:
     vector<Node> T; // Tree
     SplayTree(int n) : T(n + 1) {}
 
-    // Push lazy propagation, to be called before accessing children
+    // Push lazy propagation, to be called before exposeing children
     void push_children(int x)
     {
         if (!x || !T[x].flip)
@@ -99,7 +99,7 @@ protected:
     int edges[mxN] = {0};
 
     // Make the path from the root node to x a preferred path
-    int access(int x)
+    int expose(int x)
     {
         int last = 0, y = x;
         while (y)
@@ -115,9 +115,9 @@ protected:
     }
 
     // makes x the root of the represented tree
-    void make_root(int x)
+    void evert(int x)
     {
-        access(x);
+        expose(x);
         T[x].flip ^= 1;
         push_children(x);
     }
@@ -125,8 +125,8 @@ protected:
     // add the Edge between x and y
     void link(int u, int v)
     {
-        make_root(u);
-        access(v);
+        evert(u);
+        expose(v);
         T[u].parent = v;
         push_children(v);
     }
@@ -134,8 +134,8 @@ protected:
     // remove the Edge between x and y
     void cut(int u, int v)
     {
-        make_root(u);
-        access(v);
+        evert(u);
+        expose(v);
         T[v].child[0] = T[u].parent = 0;
         push_children(v);
     }
@@ -155,15 +155,15 @@ public:
     // returns the maximum value on the path from u to v
     ld PathQuery(int u, int v)
     {
-        make_root(u);
-        access(v);
+        evert(u);
+        expose(v);
         return T[v].path;
     }
 
     // update the value of node u to v
     void Update(int u, ld v)
     {
-        access(u);
+        expose(u);
         T[u].val = v;
         update_node(u);
     }
@@ -171,7 +171,7 @@ public:
     // returns the root of the represented tree that contains u
     int find(int u)
     {
-        access(u);
+        expose(u);
         while (T[u].child[0])
             u = T[u].child[0];
         return u;
